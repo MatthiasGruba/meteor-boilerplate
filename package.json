@@ -10,6 +10,7 @@
   "dependencies": {
     "@babel/runtime": "^7.1.5",
     "bcrypt": "^3.0.3",
+    "expect": "^23.6.0",
     "history": "^4.7.2",
     "meteor-node-stubs": "^0.4.1",
     "moment": "^2.23.0",
@@ -26,7 +27,6 @@
     "mainModule": {
       "client": "client/main.js",
       "server": "server/main.js"
-    },
-    "testModule": "tests/main.js"
+    }
   }
 }
