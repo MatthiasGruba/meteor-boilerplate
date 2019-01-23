@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {Accounts} from 'meteor/accounts-base';
-import {Link} from "react-router-dom";
+import {withTracker} from 'meteor/react-meteor-data';
+import PropTypes from 'prop-types';
 
-
-class Signup extends Component {
+export class Signup extends Component {
 
     constructor(props){
         super(props);
@@ -21,10 +21,10 @@ class Signup extends Component {
         let password = this.refs.password.value;
 
         if(password.length<9)
-            return this.setState({error:"Password mustbe more than 8 characters long!"});
+            return this.setState({error:"Password must be more than 8 characters long!"});
 
         //wenn fürs json-Objekt keinen Eigenschaftsnamen wählt, nimmt es den Variablenname (und der passt)
-        Accounts.createUser({email,password},(err)=>{
+        this.props.createUser({email,password},(err)=>{
             if(err){
                 this.setState({
                     error:err.reason
@@ -55,11 +55,25 @@ class Signup extends Component {
                         <button className="button">Create account</button>
                     </form>
 
-                    <Link to="/">Have an account?</Link>
+                    <a onClick={()=>this.props.history.push("/")}>Have an account?</a>
                 </div>
             </div>
         );
     }
 }
 
-export default Signup;
+
+Signup.propTypes = {
+    createUser: PropTypes.func.isRequired,
+
+}
+
+
+
+
+export default withTracker(props=>{
+
+    return {
+        createUser:Accounts.createUser,
+    }
+})(Signup);

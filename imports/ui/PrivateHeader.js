@@ -1,16 +1,9 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Accounts} from "meteor/accounts-base";
+import {withTracker} from 'meteor/react-meteor-data';
 
-class PrivateHeader extends Component {
-
-
-    onLogout = ()=>{
-        Accounts.logout((err)=>{
-            if(err)
-                console.log(err);
-        })
-    };
+export class PrivateHeader extends Component {
 
     render() {
         const {title} = this.props;
@@ -18,7 +11,7 @@ class PrivateHeader extends Component {
             <div className="header">
                 <div className="header__content">
                     <h1 className="header__title">{title}</h1>
-                    <button className="header__button" onClick={()=>this.onLogout()}>Logout</button>
+                    <button className="header__button" onClick={()=>this.props.handleLogout()}>Logout</button>
                 </div>
             </div>
         );
@@ -27,7 +20,14 @@ class PrivateHeader extends Component {
 
 
 PrivateHeader.propTypes = {
-    title: PropTypes.string.isRequired
+    title: PropTypes.string.isRequired,
+    handleLogout:PropTypes.func.isRequired
 }
 
-export default PrivateHeader;
+export default withTracker(props=>{
+    return {
+        handleLogout: ()=>Accounts.logout()
+    }
+})(PrivateHeader);
+
+//export default PrivateHeader;
