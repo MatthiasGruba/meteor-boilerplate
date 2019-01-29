@@ -8,43 +8,40 @@ import Login from "../ui/Login";
 import Signup from "../ui/Signup";
 import NotFound from "../ui/NotFound";
 import Dashboard from "../ui/Dashboard";
+import {Tracker} from "meteor/tracker";
 
 const history = createBrowserHistory();
 const unauthenticatedPages = ["/","/signup"];
 const authenticatedPages = ["/dashboard"];
 
 
-const onEnterPublicPage = () =>{
-    if(Meteor.userId())
-        history.replace("/dashboard");
-};
-const onEnterPrivatePage = () =>{
-    if(!Meteor.userId())
-        history.replace("/");
-};
+Tracker.autorun(()=>{
+    const isAuthenticated = !!Meteor.userId();
+    history.push(); //Trigger history change on Authentication change
+});
 
-
-
-export const routes = (
-    <Router history={history}>
-        <Switch>
-            <Route path="/" exact component={Login} onEnter={onEnterPublicPage} />
-            <Route path="/signup" component={Signup} onEnter={onEnterPublicPage} />
-            <Route path="/dashboard" component={Dashboard} onEnter={onEnterPrivatePage} />
-            <Route path="*" component={NotFound}/>
-        </Switch>
-    </Router>
-);
-
-export const onAuthCheck = (isAuthenticated)=>{
-    const pathname = history.location.pathname;
+history.listen((location) => {
+    const pathname = location.pathname;
     const isUnauthenticatedPage = unauthenticatedPages.includes(pathname);
     const isAuthenticatedPage = authenticatedPages.includes(pathname);
+    const isAuthenticated = Meteor.userId();
 
     if(isUnauthenticatedPage && isAuthenticated)
         history.replace("/dashboard");
 
     if(isAuthenticatedPage && !isAuthenticated)
         history.replace("/");
-};
+});
+
+
+export const routes = (
+    <Router history={history}>
+        <Switch onEnter={history.push()}> /*Trigger history change on site enter */
+            <Route path="/" exact component={Login} />
+            <Route path="/signup" component={Signup} />
+            <Route path="/dashboard" component={Dashboard} />
+            <Route path="*" component={NotFound}/>
+        </Switch>
+    </Router>
+);
 
