@@ -7,7 +7,7 @@ import Adapter from 'enzyme-adapter-react-16';
 configure({ adapter: new Adapter() });
 import jest from 'jest-mock'
 
-import {Login} from './Login';
+import {Login} from '../../ui/Login';
 
 
 if(Meteor.isClient){

@@ -1,6 +1,6 @@
 import {Meteor} from 'meteor/meteor';
 import expect from 'expect';
-import {validateNewUser} from "./users";
+import {validateNewUser} from "../../api/users";
 
 
 if(Meteor.isServer){

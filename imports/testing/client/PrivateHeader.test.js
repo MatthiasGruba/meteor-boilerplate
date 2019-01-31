@@ -7,7 +7,7 @@ import Adapter from 'enzyme-adapter-react-16';
 configure({ adapter: new Adapter() });
 import jest from 'jest-mock'
 
-import {PrivateHeader} from './PrivateHeader';
+import {PrivateHeader} from '../../ui/dashboard/PrivateHeader';
 
 if(Meteor.isClient){
     describe('PrivateHeader',function(){

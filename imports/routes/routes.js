@@ -7,7 +7,7 @@ import {createBrowserHistory } from 'history'
 import Login from "../ui/Login";
 import Signup from "../ui/Signup";
 import NotFound from "../ui/NotFound";
-import Dashboard from "../ui/Dashboard";
+import Dashboard from "../ui/dashboard/Dashboard";
 import {Tracker} from "meteor/tracker";
 
 const history = createBrowserHistory();
